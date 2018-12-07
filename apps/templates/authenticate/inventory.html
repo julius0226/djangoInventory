@@ -1,0 +1,52 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+
+
+<h2 class="form-signin-heading">Inventory List</h2>
+
+<table align="center" class="table table-bordered table-hover">
+	<tr>
+		<th>Department</th>
+		<th>Week</th>
+		<th>Author</th>
+		<th>Status</th>
+		<th colspan="2"></th>
+	</tr>
+	{% if inventories %}
+    {% for inventory in inventories %}
+    <tr class="itemlist">
+    	<td>{{ inventory.department }}</a></td>
+    	<td>{{ inventory.week }}</a></td>
+    	<td>{{ inventory.created_by.username }}</a></td>
+    	<td>{{ inventory.status }}</td>
+    	<td>
+    		<form action="{% url 'deleteInventory' inventory.ID %}" method="POST">{% csrf_token %}
+    			<input type="submit" class="deluser" value="Delete"/>
+			</form>
+		</td>
+		<td>
+			<form action="{% url 'editInventory' inventory.ID %}" method="GET">{% csrf_token %}
+    			<input type="submit" value="Edit"/>
+			</form>
+		</td>
+	</tr>
+    {% endfor %}
+	{% else %}
+    <tr>
+    	<td colspan="7">No inventories available.</td>
+    </tr>
+    {% endif %}	
+</table>
+
+
+
+<form action={% url 'addInventory' %} class="form-signin" method="GET">
+        {% csrf_token %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Item
+        </button>
+</form>
+
+
+{% endblock %}

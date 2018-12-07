@@ -1,0 +1,65 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+    <h2 class="form-signin-heading">Editing username <strong><em>{{ users.username }}</em></strong> </h2>
+      <form action={% url 'editUser' users.pk %} class="form-signin" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <input type="hidden" name="username" class="form-control" value="{{ users.username }}">
+        </div>
+
+
+        <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" name="fname" class="form-control" value="{{ users.first_name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" name="lname" class="form-control" value="{{ users.last_name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" class="form-control" value="{{ users.email }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="crole"><strong>Current</strong> Role</label>
+            <input type="text" name="crole" class="form-control" value="{{ users.profile.get_role_display }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="role">Select <strong>New</strong> Role</label>
+            <select class="form-control input-lg" id="role" name="role"> 
+                <option value="user">USER</option>
+                <option value="auditor">AUDITOR</option>
+                <option value="manager">MANAGER</option>
+                <option value="admin">ADMIN</option> 
+            </select>                        
+        </div>
+
+        <div class="form-group">
+            <label for="cdept"><b>Current</b> Department</label>
+            <input value="{{ users.profile.get_department_display }}" type="text" name="cdept" class="form-control" disabled>
+        </div>
+
+        <div class="form-group">
+
+            <label for="role">Select <b>New</b> Department</label>
+            <select class="form-control input-lg" id="department" name="department"> 
+                <option value="CA">Clothing and Apparel</option>
+                <option value="HD">Home and Decors</option>
+                <option value="CS">Construction Supplies</option>
+            </select>            
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+      </form>
+    </div> 
+
+
+
+{% endblock %}

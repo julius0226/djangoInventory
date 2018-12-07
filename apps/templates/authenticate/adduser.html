@@ -1,0 +1,87 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+    <h2 class="form-signin-heading">Please Add user</h2>
+      <form action={% url 'addUser' %} class="form-signin" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" name="fname" class="form-control" placeholder="First Name" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="lname" class="form-control" placeholder="Last Name" required>
+        </div>
+
+        <div class="form-group">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="cpassword" class="form-control" placeholder="Confirm Password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Select Role</label>
+            <select class="form-control input-lg" id="role" name="role"> 
+                <option value="user">USER</option>
+                <option value="auditor">AUDITOR</option>
+                <option value="manager">MANAGER</option>
+                <option value="admin">ADMIN</option> 
+            </select>
+            
+            {% comment %}             
+                <tr>
+                <td>Role</td>
+                <td>
+                    <select id="role" name="role">
+                        <option value="user">USER</option>
+                        <option value="auditor">AUDITOR</option>
+                        <option value="manager">MANAGER</option>
+                        <option value="admin">ADMIN</option>
+                    </select>
+                </td>
+                </tr>
+            {% endcomment %}
+        </div>
+
+        <div class="form-group">
+
+            <label for="role">Select Department</label>
+            <select class="form-control input-lg" id="department" name="department"> 
+                <option value="CA">Clothing and Apparel</option>
+                <option value="HD">Home and Decors</option>
+                <option value="CS">Construction Supplies</option>
+            </select>
+
+
+            {% comment %} 
+                <tr>
+                <td>Department</td>
+                <td>
+                    <select id="department" name="department">
+                        <option value="CA">Clothing and Apparel</option>
+                        <option value="HD">Home and Decors</option>
+                        <option value="CS">Construction Supplies</option>
+                    </select>
+                </td>
+                </tr>
+            {% endcomment %}
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+      </form>
+    </div> 
+
+
+
+{% endblock %}

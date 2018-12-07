@@ -1,0 +1,65 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">    
+    <h2 class="form-signin-heading">Edit Inventory</h2>
+    <form action="/authenticate/inventory/edit/{{ inventory.ID }}" class="form-signin" method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {% comment %} <input type="week" name="week_year" class="form-control" placeholder="Week"> {% endcomment %}
+            <input type="week" name="week_year" class="form-control center-block" placeholder="Week">
+        </div>        
+
+        {% if products %}
+            Products
+            <div class="container-fluid">
+            <table align="center" class="table table-bordered table-hover">
+                <tr>
+                    <th>Name</th>
+                    <th>SKU</th>
+                    <th colspan="2">Stocks</th>
+                    <th colspan="2">Sales</th>
+                </tr>
+                {% for product in products %}
+                    <tr class="itemlist">
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.SKU }}</td>
+                        <td>{{ product.old_stocks }}</td>
+                        <td><input type="number" name="{{product.ID }}_stocks" value="{{ product.inv_stocks }}" /></td>
+                        <td>{{ product.sales }}</td>
+                        <td><input type="number" name="{{product.ID }}_sales" value="{{ product.inv_sales }}" /></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            </div>
+        {% endif %}
+
+    {% if user.profile.role == "user" %}
+		{% csrf_token %}
+		<input type="submit" name="draft" value="Save"/>
+		
+        {% csrf_token %}
+		<input type="submit" name="to_audit" value="Submit for Audit"/>
+	
+    {% elif user.profile.role == "auditor" %}
+        {% csrf_token %}	
+        <input type="submit" name="reject" value="Reject"/>
+		
+        {% csrf_token %}
+		<input type="submit" name="to_approve" value="Submit for Approval"/>
+	
+    {% elif user.profile.role == "manager" %}
+		{% csrf_token %}
+		
+        <input type="submit" name="reject" value="Reject"/>
+		{% csrf_token %}
+		<input type="submit" name="approve" value="Submit"/>
+
+	{% endif %}        
+
+    </form>
+</div> 
+
+{% endblock %}

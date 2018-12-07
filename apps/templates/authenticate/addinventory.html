@@ -1,0 +1,74 @@
+{% extends 'authenticate/base.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3">    
+    <h2 class="form-signin-heading">Please Add Inventory</h2>
+    <form action={% url 'addInventory' %} class="form-signin" method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {% comment %} <input type="week" name="week_year" class="form-control" placeholder="Week"> {% endcomment %}
+            <input type="week" name="week_year" class="form-control center-block" placeholder="Week">
+        </div>
+
+        <div class="form-group">
+            <label for="role">Select Department</label>
+            <select class="form-control input-lg" id="department" name="department"> 
+                <option value="CA">Clothing and Apparel</option>
+                <option value="HD">Home and Decors</option>
+                <option value="CS">Construction Supplies</option>
+                {% comment %} {% for alldepartments in departments %}
+                    <option value="{{ alldepartments.department }}">{{ alldepartments.get_department_display }}</option>
+                {% endfor %} {% endcomment %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Select Role</label>
+            <select class="form-control input-lg" id="role" name="role"> 
+                <option value="user">USER</option>
+                <option value="auditor">AUDITOR</option>
+                <option value="manager">MANAGER</option>
+                <option value="admin">ADMIN</option> 
+            </select>
+         </div>
+
+        {% if products %}
+            Products
+            <div class="container-fluid">
+            <table align="center" class="table table-bordered table-hover">
+                <tr>
+                    <th>Name</th>
+                    <th>SKU</th>
+                    <th colspan="2">Stocks</th>
+                    <th colspan="2">Sales</th>
+                </tr>
+                {% for product in products %}
+                    <tr class="itemlist">
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.SKU }}</td>
+                        <td>{{ product.stocks }}</td>
+                        <td><input type="number" name="{{product.ID }}_stocks" /></td>
+                        <td>{{ product.sales }}</td>
+                        <td><input type="number" name="{{product.ID }}_sales" /></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            </div>
+        
+
+            {% csrf_token %}
+            <input type="submit" name="draft" value="Save"/>
+            {% csrf_token %}
+            <input type="submit" name="to_audit" value="Submit"/>        
+        {% endif %}
+
+        {% comment %} <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button> {% endcomment %}
+
+    </form>
+</div> 
+
+
+
+{% endblock %}
